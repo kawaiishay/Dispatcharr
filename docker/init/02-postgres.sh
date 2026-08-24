@@ -6,8 +6,9 @@ if [[ "$DISPATCHARR_ENV" != "modular" ]]; then
     # Record PUID:PGID in a sentinel file so subsequent startups can skip
     # the expensive recursive chown when ownership is already correct.
     write_ownership_sentinel() {
-        echo "$PUID:$PGID" > "${POSTGRES_DIR}/.owner_puid"
-        chown "$PUID:$PGID" "${POSTGRES_DIR}/.owner_puid"
+        echo "root:root" > "${POSTGRES_DIR}/.owner_puid"
+        chown "root:root" "${POSTGRES_DIR}/.owner_puid"
+        rm -f "${POSTGRES_DIR}/postmaster.pid" 
     }
 
     # Ensure the PostgreSQL socket directory exists, is owned by PUID:PGID,
