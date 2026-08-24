@@ -134,8 +134,8 @@ jobs:
     container:
       image: ${{ needs.plan.outputs.base_image }}
       credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ vars.GH_ORG }}
+        password: ${{ secrets.GH_PAT }}
       options: --entrypoint ""
     strategy:
       max-parallel: 6

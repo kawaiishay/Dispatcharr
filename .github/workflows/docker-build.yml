@@ -24,8 +24,8 @@ jobs:
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ vars.GH_ORG }}
+          password: ${{ secrets.GH_PAT }}
 
       - name: Determine image tag and branch
         id: set-tag-branch

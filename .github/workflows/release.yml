@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
 
       - name: Configure Git
         run: |
@@ -86,7 +86,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
           ref: main
 
       - name: Configure Git
@@ -101,8 +101,8 @@ jobs:
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ vars.GH_ORG }}
+          password: ${{ secrets.GH_PAT }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v4
@@ -129,8 +129,8 @@ jobs:
             org.opencontainers.image.licenses=See repository
             org.opencontainers.image.documentation=https://dispatcharr.github.io/Dispatcharr-Docs/
             org.opencontainers.image.vendor=${{ needs.prepare.outputs.repo_owner }}
-            org.opencontainers.image.authors=${{ github.actor }}
-            maintainer=${{ github.actor }}
+            org.opencontainers.image.authors=${{ vars.GH_ORG }}
+            maintainer=${{ vars.GH_ORG }}
             build_version=Dispatcharr version: ${{ needs.prepare.outputs.new_version }} Build date: ${{ needs.prepare.outputs.timestamp }}
 
       - name: Build and push Docker image
@@ -163,8 +163,8 @@ jobs:
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ vars.GH_ORG }}
+          password: ${{ secrets.GH_PAT }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v4
@@ -196,8 +196,8 @@ jobs:
             --annotation "index:org.opencontainers.image.licenses=See repository" \
             --annotation "index:org.opencontainers.image.documentation=https://dispatcharr.github.io/Dispatcharr-Docs/" \
             --annotation "index:org.opencontainers.image.vendor=${OWNER}" \
-            --annotation "index:org.opencontainers.image.authors=${{ github.actor }}" \
-            --annotation "index:maintainer=${{ github.actor }}" \
+            --annotation "index:org.opencontainers.image.authors=${{ vars.GH_ORG }}" \
+            --annotation "index:maintainer=${{ vars.GH_ORG }}" \
             --annotation "index:build_version=Dispatcharr version: ${VERSION} Build date: ${TIMESTAMP}" \
             --tag ghcr.io/${OWNER}/${REPO}:latest \
             --tag ghcr.io/${OWNER}/${REPO}:${VERSION} \
@@ -216,8 +216,8 @@ jobs:
             --annotation "index:org.opencontainers.image.licenses=See repository" \
             --annotation "index:org.opencontainers.image.documentation=https://dispatcharr.github.io/Dispatcharr-Docs/" \
             --annotation "index:org.opencontainers.image.vendor=${OWNER}" \
-            --annotation "index:org.opencontainers.image.authors=${{ github.actor }}" \
-            --annotation "index:maintainer=${{ github.actor }}" \
+            --annotation "index:org.opencontainers.image.authors=${{ vars.GH_ORG }}" \
+            --annotation "index:maintainer=${{ vars.GH_ORG }}" \
             --annotation "index:build_version=Dispatcharr version: ${VERSION} Build date: ${TIMESTAMP}" \
             --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION }}/${REPO}:latest \
             --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION }}/${REPO}:${VERSION} \
@@ -234,4 +234,4 @@ jobs:
           name: Release v${{ needs.prepare.outputs.new_version }}
           draft: false
           prerelease: false
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
