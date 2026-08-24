@@ -136,7 +136,7 @@ HBAEOF
                 echo ""
                 exit 1
             fi
-            chmod 700 "$POSTGRES_DIR"
+            chmod 755 "$POSTGRES_DIR"
             # Write sentinel LAST — if chown was interrupted, the sentinel
             # won't exist and next startup will re-run the full chown.
             write_ownership_sentinel
